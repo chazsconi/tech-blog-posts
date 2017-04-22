@@ -7,7 +7,7 @@ published: true
 
 # Observing remote Elixir Docker nodes
 
-Two good blog posts by [Martin Feckie](http://mfeckie.github.io/Remote-Profiling-Elixir-Over-SSH/) and another by [Erich Kist](http://blog.plataformatec.com.br/2016/05/tracing-and-observing-your-remote-node/)] document how to to connect to a remote Elixir node from your local machine in order to connect a remote iex session or run the Observer.  However if your Elixir (or Erlang) application is running in a Docker container on the remote host this is more complicated.
+Two good blog posts by [Martin Feckie](http://mfeckie.github.io/Remote-Profiling-Elixir-Over-SSH/) and another by [Erich Kist](http://blog.plataformatec.com.br/2016/05/tracing-and-observing-your-remote-node/) document how to to connect to a remote Elixir node from your local machine in order to connect a remote iex session or run the Observer.  However if your Elixir (or Erlang) application is running in a Docker container on the remote host this is more complicated.
 
 # What is EPMD?
 
@@ -124,3 +124,5 @@ Now we start Observer (`:observer.start`) and then we should see our remote node
 This is quite a complex setup, but it does provide what is required. I do not particularly like having to create an additional loopback adapter and also having to specify the additional loopback IP as part of the name of the remote node.
 
 I plan to research doing this in another way by creating a reverse SSH tunnel to make the local EPMD accessible in another container on the remote server, and then running `Node.connect/1` from one container to the other.  That way an extra loopback IP should not be required.
+
+Many thanks to Martin Feckie and Erich Kist whose blog posts helped me a lot in getting started.
