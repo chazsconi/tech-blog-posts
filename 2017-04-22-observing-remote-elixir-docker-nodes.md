@@ -7,7 +7,7 @@ published: true
 
 # Observing remote Elixir Docker nodes
 
-Two good blog posts by [Martin Feckie](http://mfeckie.github.io/Remote-Profiling-Elixir-Over-SSH/) and another by [Erich Kist](http://blog.plataformatec.com.br/2016/05/tracing-and-observing-your-remote-node/) document how to to connect to a remote Elixir node from your local machine in order to connect a remote iex session or run the Observer.  However if your Elixir (or Erlang) application is running in a Docker container on the remote host this is more complicated.
+Two good blog posts by [Martin Feckie](http://mfeckie.github.io/Remote-Profiling-Elixir-Over-SSH/) and another by [Erich Kist](http://blog.plataformatec.com.br/2016/05/tracing-and-observing-your-remote-node/) document how to connect to a remote Elixir node from your local machine in order to connect a remote iex session or run the Observer.  However if your Elixir (or Erlang) application is running in a Docker container on the remote host this is more complicated.
 
 # What is EPMD?
 
