@@ -70,6 +70,8 @@ epmd: Sat Apr 22 19:32:41 2017: closing connection on file descriptor 5
 
 # Solution
 
+UPDATE: Please see [my next blog post]({% post_url 2017-04-25-observing-remote-elixir-docker-nodes-continued%}) for a potentially better solution to the one outlined below.
+
 Instead of trying to get both the local node and remote node to use the same EPMD instance, we will create two separate EPMD instances and then use an SSH tunnel so that we can connect to the remote EPMD instance and remote Erlang node locally.  However, as all EPMD instances in a cluster must run on the same port (as per the EPMD documentation), and our local instance will be bound to 127.0.0.1 port 4369 we have to tunnel the remote instance to a local IP.
 
 We could use the eth0/en0 IP address, but as this can change, I choose to create a 2nd loopback address.  On a Mac you can do this as follows:

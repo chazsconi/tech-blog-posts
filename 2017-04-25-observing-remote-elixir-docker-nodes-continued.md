@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Observing remote Elixir Docker nodes - Continued"
-date:   2017-04-23 12:54:57 +0100
+date:   2017-04-25 22:54:57 +0100
 published: true
 ---
 
@@ -17,7 +17,7 @@ By default remote port forwarding can only bind to the loopback adapter on the r
 ```
 GatewayPorts clientspecified
 ```
-Ensure there are no other `GatewayPorts` lines in the file.  Next, reload the configuration by executing `sudo reload ssh`.  (These instructions are for Ubuntu, it might be slightly different on other distributions.)
+Ensure there are no other `GatewayPorts` lines in the file.  Next, reload the configuration by executing `sudo service ssh restart`.  (These instructions are for Ubuntu, it might be slightly different on other distributions.)
 
 ## Run a remote IEX session in a container
 
@@ -77,6 +77,12 @@ We can solve this by creating a temporary node inside our running container and 
 me@myserver.com:~$ docker exec 866b1839d4fe elixir --name temp@127.0.0.1 --cookie mycookie -e ":rpc.call(:'remotenode@127.0.0.1', Node, :connect, [:'node@172.17.0.1'])"
 ```
 In the above example `866b1839d4fe` is the ID of our running remote container.
+
+# Putting it all together
+
+I have written a script to do all of these steps.
+
+https://github.com/chazsconi/connect-remote-elixir-docker
 
 # Conclusion
 
