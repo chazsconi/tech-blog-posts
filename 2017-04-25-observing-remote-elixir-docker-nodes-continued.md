@@ -80,9 +80,9 @@ In the above example `866b1839d4fe` is the ID of our running remote container.
 
 # Putting it all together
 
-I have written a script to do all of these steps.
+I have written a script to combine all these steps: 
 
-https://github.com/chazsconi/connect-remote-elixir-docker
+[chazsconi/connect-remote-elixir-docker](https://github.com/chazsconi/connect-remote-elixir-docker)
 
 # Conclusion
 
