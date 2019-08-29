@@ -84,9 +84,9 @@ To create an Erlang cluster three things are required:
 
 3. The nodes must be able to discover, resolve and communicate with each other
 
-  This is the hard part...
+  The various options for this will now be discussed.
 
-## Simple using StatefulSets
+## Solution using StatefulSets
 
 Using Deployments, your pods will be allocated generated names, which makes discovery harder.  However
 by using a StatefulSet, your pods will be allocated names in sequential order, e.g. `myapp-0`, `myapp-1` etc
@@ -149,7 +149,7 @@ spec:
 ```
 
 A service is also needed to create the DNS records for the pods backing the stateful set.
-This will cause each pod to the name: `k8s-example-N.k8s-example-erlang-cluster.default.svc.cluster.local`
+This will cause each pod to have the name: `k8s-example-N.k8s-example-erlang-cluster.default.svc.cluster.local`
 where `N` is the instance number, `0`, `1`, `2` etc, and `default` is the namespace name:
 
 ```yaml
@@ -200,12 +200,12 @@ defmodule MyApp.App do
 end
 ```
 The `libcluster` library has various strategies, however the one used here, `Cluster.Strategy.Epmd`, only connects on startup
-and not periodically, so any problem will not cause nodes to reconnect.  Also, as the node names are hardcoded,
+and not periodically, so any connection problem will not allow nodes automatically reconnect.  Also, as the node names are hardcoded,
 scaling the number of pods with `kubectl scale` will not work.
 
 ## Adding discovery to StatefulSets
 
-When creating a k8s service for Statefulsets, in addition to `A` DNS records being create for pods, `SRV` records are also created
+When creating a k8s service for Statefulsets, in addition to `A` DNS records being created for pods, `SRV` records are also created
 if there is at least one port specified for the service.  In the example above, port 80 is specified.
 
 You can see this by executing a dns query from within one of the pods:
@@ -252,10 +252,10 @@ env:
 
 ## Solution using Deployments
 
-Although a Statefulset is the simplest solution to having an Erlang cluster, using a Deployment can also be have advantages.  For example
-when you have limited resources in your cluster and you only want one instance of the pod running. During a redeployment the pods
+Although a Statefulset is the simplest solution to having an Erlang cluster, using a Deployment can also have advantages.  For example
+when you have limited resources in your cluster and you only want one instance of the pod running normally - during a redeployment the pods
 will temporarily scale up to two, and then back down again to one.  With a StatefulSet, you need to have at least two pods running to ensure
-no downtime during deploys as each pod is stopped and started again in turn.
+no downtime during deploys as each pod is stopped and started again in rolling restart.
 
 With a few steps you can also set up a Kubernetes Deployment to have discoverable nodes.
 
@@ -274,7 +274,7 @@ k8s-example-erlang-cluster.default.svc.cluster.local	service = 0 33 80 10-244-0-
 As can be seen, each pod is given a name derived from its IP address and service name.
 
 The erlang name of each pod then needs to be set to `A-B-C-D.k8s-example-erlang-cluster.default.svc.cluster.local.` where `A-B-C-D` is
-the IP address with `.` converted to `-`.
+the IP address with `.` converted to `-`.  This is required so it matches the DNS name of the pod.
 
 To get the pod IP from within the container as an environment variable the following can be used in the pod spec:
 ```yaml
@@ -296,6 +296,12 @@ You can then use the same strategy (`Cluster.Strategy.Kubernetes.DNSSRV`) to aut
 
 # Conclusion
 
-Setting up a Erlang cluster on Elixir and Kubernetes does require a few steps but can be done quite simply with the `libcluster` and `distillery` hex packages.
+Setting up a Erlang cluster on Elixir and Kubernetes does require a few steps but can be done quite simply with the `libcluster`
+and `distillery` hex packages.
+
+In most cases you will want to use a Statefulset and discover the pod names dynamically.  This will allow scaling, and also give your pods
+nice names which makes debugging simpler.  If you do not plan to scale your Statefulset it may be more robust to hardcode the pod names
+and not rely on discovery via DNS.  In the case you are resource constrained and can only afford a single pod instance,
+a Deployment is the probably best option.
 
 The complete code in the discussion can be found in github [chazsconi/k8s_erlang_cluster_example](https://github.com/chazsconi/k8s_erlang_cluster_example).
