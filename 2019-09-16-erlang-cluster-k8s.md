@@ -2,7 +2,7 @@
 layout: post
 title:  "Creating an Erlang/Elixir cluster on Kubernetes"
 date:   2019-06-08 12:00:00
-published: false
+published: true
 ---
 
 # Deployment without an Erlang cluster
@@ -71,18 +71,18 @@ you will need an Erlang cluster.
 
 To create an Erlang cluster three things are required:
 
-1. Each node must have a name e.g. `node@my-node.my-domain`
+* Each node must have a name e.g. `node@my-node.my-domain`
 
   Here `my-node.my-name` will be the name of the pod. `node` will not change unless you plan
   to run multiple applications within the same pod in different containers (out of the scope of this post).
 
   This is set in `vm.args`
 
-2. Each node must have the same Erlang cookie.
+* Each node must have the same Erlang cookie.
 
   This is set in `vm.args` also.
 
-3. The nodes must be able to discover, resolve and communicate with each other
+* The nodes must be able to discover, resolve and communicate with each other
 
   The various options for this will now be discussed.
 
