@@ -13,7 +13,7 @@ Myself and some colleagues recently used [Conway's Game of Life](https://en.wiki
 
 # Why Game of Life?
 
-The rules of Game of Life are simple. It consists of a grid of cells, where each cell can either be alive or dead. Whether a cell survives, dies or is generated in the next generation of the game depends only on its immediate eight surrounding cells. However, scaling it to run concurrently and producing a nice web based visualisation are non-trivial problems.
+The rules of Game of Life are quite simple. It consists of a grid of cells, where each cell can either be alive or dead. Whether a cell survives, dies or is generated in the next generation of the game depends only on its immediate eight surrounding cells. However, scaling it to run concurrently and producing a nice web based visualisation are non-trivial problems.
 
 The solution can easily be split into three distinct parts, thus allowing three teams to work on each part almost independently once the interfaces have been agreed, with each part exploring different aspects of Elixir and/or Elm.  
 
